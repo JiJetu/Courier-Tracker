@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 
 const authRoutes = require("./src/routes/auth.routes");
+const parcelRoutes = require("./src/routes/parcel.routes");
 
 dotenv.config();
 const app = express();
@@ -20,7 +21,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api", authRoutes);
-// app.use("/api/flights", flightRoutes);
+app.use("/api/parcel", parcelRoutes);
 // app.use("/api/bookings", bookingRoutes);
 
 // Health check
