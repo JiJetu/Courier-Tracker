@@ -30,9 +30,8 @@ app.get("/", (req, res) => {
   res.send("Flight Booking System API is running");
 });
 
-// todo
 // Error handlers
-// app.use(notFound);
-// app.use(errorHandler);
+app.use(notFound);
+app.use(errorHandler);
 
 module.exports = app;
