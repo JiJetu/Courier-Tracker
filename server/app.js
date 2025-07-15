@@ -6,6 +6,10 @@ const dotenv = require("dotenv");
 const authRoutes = require("./src/routes/auth.routes");
 const parcelRoutes = require("./src/routes/parcel.routes");
 const adminRoutes = require("./src/routes/admin.routes");
+const {
+  notFound,
+  errorHandler,
+} = require("./src/middlewares/error.middleware");
 
 dotenv.config();
 const app = express();
