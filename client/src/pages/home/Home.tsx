@@ -1,8 +1,15 @@
+import { Helmet } from "react-helmet-async";
+import Hero from "../../components/home/Hero";
+
 const Home = () => {
   return (
-    <div>
-      <h1>This is Home component</h1>
-    </div>
+    <>
+      <Helmet>
+        <title>CourierTracker | Home</title>
+      </Helmet>
+
+      <Hero />
+    </>
   );
 };
 

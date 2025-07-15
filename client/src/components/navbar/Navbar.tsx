@@ -4,10 +4,12 @@ import ProfileDropDown from "./ProfileDropDown";
 import { GiDeliveryDrone } from "react-icons/gi";
 import { BiSun } from "react-icons/bi";
 import { BsMoonStarsFill } from "react-icons/bs";
+import { useAppSelector } from "../../redux/hooks";
+import { currentUser } from "../../redux/features/auth/auth.slice";
 
 const Navbar = () => {
   const { handleMode, mode } = useTheme();
-  const user = false;
+  const user = useAppSelector(currentUser);
 
   const navItems = (
     <>
@@ -21,18 +23,6 @@ const Navbar = () => {
           to={"/"}
         >
           Home
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          className={({ isActive }) =>
-            `p-2 text-purple-500 ${
-              isActive && "p-2 border-b border-b-purple-600 text-purple-500"
-            }`
-          }
-          to={"/all-flights"}
-        >
-          Flights
         </NavLink>
       </li>
     </>

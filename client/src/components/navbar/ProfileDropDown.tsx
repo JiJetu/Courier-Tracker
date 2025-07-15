@@ -1,15 +1,19 @@
 import { Link } from "react-router-dom";
 import avatarImg from "../../assets/images/placeholder.jpg";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { currentUser, logout } from "../../redux/features/auth/auth.slice";
+import { useLogoutMutation } from "../../redux/features/auth/auth.api";
 
 const ProfileDropDown = () => {
-  //   const user = "user";
-  //   const dispatch = useAppDispatch();
-  //   const [logoutUser] = useLogoutMutation();
+  const user = useAppSelector(currentUser);
+  const dispatch = useAppDispatch();
+  const [logoutUser] = useLogoutMutation();
 
   const handleLogout = async () => {
     // remove local storage data
-    // dispatch(logout());
-    // await logoutUser(undefined);
+    dispatch(logout());
+
+    await logoutUser(undefined);
   };
 
   const ProfileDropDownItems = (
@@ -26,6 +30,7 @@ const ProfileDropDown = () => {
       </li>
     </>
   );
+
   return (
     <div className="dropdown dropdown-end">
       <div
@@ -37,8 +42,7 @@ const ProfileDropDown = () => {
           <img
             alt="User image"
             referrerPolicy="no-referrer"
-            src={avatarImg}
-            // src={user && user?.image ? user?.image : avatarImg}
+            src={user && user?.image ? user?.image : avatarImg}
           />
         </div>
       </div>
