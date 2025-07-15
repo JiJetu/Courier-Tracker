@@ -5,10 +5,18 @@ const { Server } = require("socket.io");
 
 const server = http.createServer(app);
 const io = new Server(server, {
+  // pingTimeout: 60000,
   cors: {
     origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true,
   },
+});
+io.on("connection", (socket) => {
+  console.log("connected to socket.io");
+
+  socket.on("disconnect", () => {
+    console.log("client disconnected");
+  });
 });
 app.set("io", io);
 

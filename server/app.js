@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 
 const authRoutes = require("./src/routes/auth.routes");
 const parcelRoutes = require("./src/routes/parcel.routes");
+const adminRoutes = require("./src/routes/admin.routes");
 
 dotenv.config();
 const app = express();
@@ -22,13 +23,14 @@ app.use(cookieParser());
 // Routes
 app.use("/api", authRoutes);
 app.use("/api/parcel", parcelRoutes);
-// app.use("/api/bookings", bookingRoutes);
+app.use("/api/admin", adminRoutes);
 
 // Health check
 app.get("/", (req, res) => {
   res.send("Flight Booking System API is running");
 });
 
+// todo
 // Error handlers
 // app.use(notFound);
 // app.use(errorHandler);
