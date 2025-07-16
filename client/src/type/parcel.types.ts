@@ -28,3 +28,11 @@ export type TParcel = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type TParcelForm = {
+  pickupAddress: string;
+  deliveryAddress: string;
+  parcelType: string;
+  amount: number;
+  isCOD: boolean;
+};
