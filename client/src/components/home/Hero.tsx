@@ -11,10 +11,10 @@ const Hero = () => {
         service across your country.
       </p>
       <div className="flex gap-4">
-        <Link to="/book-parcel">
+        <Link to="/dashboard/book-parcel">
           <button className="btn btn-primary">Book Parcel</button>
         </Link>
-        <Link to="/track-parcel">
+        <Link to="/dashboard/track-parcel">
           <button className="btn btn-outline btn-primary">Track Parcel</button>
         </Link>
       </div>
