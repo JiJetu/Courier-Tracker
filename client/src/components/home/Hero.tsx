@@ -14,7 +14,7 @@ const Hero = () => {
         <Link to="/dashboard/book-parcel">
           <button className="btn btn-primary">Book Parcel</button>
         </Link>
-        <Link to="/dashboard/track-parcel">
+        <Link to="/dashboard/my-parcels">
           <button className="btn btn-outline btn-primary">Track Parcel</button>
         </Link>
       </div>

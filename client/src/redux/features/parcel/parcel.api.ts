@@ -1,4 +1,3 @@
-import { TParcel } from "../../../type/parcel.types";
 import { baseApi } from "../../api/base.api";
 
 const parcelApi = baseApi.injectEndpoints({
@@ -22,11 +21,12 @@ const parcelApi = baseApi.injectEndpoints({
     }),
 
     // Get single parcel by ID
-    getParcelById: builder.query<TParcel, string>({
+    getParcelById: builder.query({
       query: (id) => ({
         url: `/parcel/${id}`,
         method: "GET",
       }),
+      providesTags: ["Parcel"],
     }),
 
     updateParcelStatus: builder.mutation({
