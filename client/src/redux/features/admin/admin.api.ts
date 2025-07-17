@@ -9,7 +9,26 @@ const adminApi = baseApi.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
+    getAllUsers: builder.query({
+      query: () => ({
+        url: "/admin/users",
+        method: "GET",
+      }),
+      providesTags: ["User"],
+    }),
+    updateUserStatus: builder.mutation({
+      query: ({ id, isBlocked }) => ({
+        url: `/admin/users/${id}`,
+        method: "PATCH",
+        body: isBlocked,
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
-export const { useGetAllAgentsQuery } = adminApi;
+export const {
+  useGetAllAgentsQuery,
+  useGetAllUsersQuery,
+  useUpdateUserStatusMutation,
+} = adminApi;

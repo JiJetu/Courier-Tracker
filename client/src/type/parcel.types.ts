@@ -9,6 +9,8 @@ export type TUser = {
   name: string;
   email: string;
   image: string;
+  role?: string;
+  isBlocked: boolean;
 };
 
 export type TParcel = {

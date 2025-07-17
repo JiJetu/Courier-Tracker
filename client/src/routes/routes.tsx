@@ -12,6 +12,9 @@ import AssignedParcels from "../pages/dashboard/agent/AssignedParcels";
 import LiveTracking from "../pages/dashboard/agent/LiveTracking";
 import AdminRoute from "./AdminRoute";
 import ManageParcels from "../pages/dashboard/admin/ManageParcels";
+import CustomerRoute from "./CustomerRoute";
+import ProtectedRoute from "./ProtectedRoute";
+import ManageUsers from "../components/dashboard/admin/ManageUsers";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +32,11 @@ const router = createBrowserRouter([
   // protected
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -39,13 +46,22 @@ const router = createBrowserRouter([
         path: "parcel-track/:id",
         element: <ParcelTrack />,
       },
+      // customer
       {
         path: "book-parcel",
-        element: <Booking />,
+        element: (
+          <CustomerRoute>
+            <Booking />
+          </CustomerRoute>
+        ),
       },
       {
         path: "my-parcels",
-        element: <MyParcels />,
+        element: (
+          <CustomerRoute>
+            <MyParcels />
+          </CustomerRoute>
+        ),
       },
       // agent
       {
@@ -70,6 +86,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <ManageParcels />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "manage-users",
+        element: (
+          <AdminRoute>
+            <ManageUsers />
           </AdminRoute>
         ),
       },

@@ -1,6 +1,5 @@
 import MenuItem from "./MenuItem";
 import { BsPeople, BsBox } from "react-icons/bs";
-import { MdOutlineTrackChanges } from "react-icons/md";
 
 const AdminMenu = () => {
   return (
@@ -16,11 +15,11 @@ const AdminMenu = () => {
         label="Manage Parcels"
         address="/dashboard/manage-parcels"
       />
-      <MenuItem
+      {/* <MenuItem
         icon={MdOutlineTrackChanges}
         label="All Tracking"
         address="/dashboard/all-tracking"
-      />
+      /> */}
     </>
   );
 };
