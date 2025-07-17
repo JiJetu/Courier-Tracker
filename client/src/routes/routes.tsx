@@ -9,6 +9,9 @@ import MyParcels from "../pages/dashboard/coustomer/MyParcels";
 import ParcelTrack from "../pages/dashboard/common/ParcelTrack";
 import AgentRoute from "./AgentRoute";
 import AssignedParcels from "../pages/dashboard/agent/AssignedParcels";
+import LiveTracking from "../pages/dashboard/agent/LiveTracking";
+import AdminRoute from "./AdminRoute";
+import ManageParcels from "../pages/dashboard/admin/ManageParcels";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +26,7 @@ const router = createBrowserRouter([
   },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
+  // protected
   {
     path: "/dashboard",
     element: <DashboardLayout />,
@@ -50,6 +54,23 @@ const router = createBrowserRouter([
           <AgentRoute>
             <AssignedParcels />
           </AgentRoute>
+        ),
+      },
+      {
+        path: "live-tracking",
+        element: (
+          <AgentRoute>
+            <LiveTracking />
+          </AgentRoute>
+        ),
+      },
+      // admin
+      {
+        path: "manage-parcels",
+        element: (
+          <AdminRoute>
+            <ManageParcels />
+          </AdminRoute>
         ),
       },
     ],

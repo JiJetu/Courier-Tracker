@@ -17,6 +17,7 @@ const ParcelStatusModal = ({ parcel, closeModal }: TParcelStatusModalProps) => {
   const [updateStatus, { isLoading }] = useUpdateParcelStatusMutation();
 
   const handleUpdate = async () => {
+    if (!status) return toast.error("Select proper status");
     const toastId = toast.loading("Updating status......");
     const updatedStatus = { id: parcel._id, status };
     try {
@@ -67,6 +68,7 @@ const ParcelStatusModal = ({ parcel, closeModal }: TParcelStatusModalProps) => {
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
                 >
+                  <option value="">Select Status</option>
                   <option value="Picked Up">Picked Up</option>
                   <option value="In Transit">In Transit</option>
                   <option value="Delivered">Delivered</option>

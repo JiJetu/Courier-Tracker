@@ -4,26 +4,23 @@ export type TTrackingCoordinate = {
   timestamp: string; // ISO String from backend
 };
 
+export type TUser = {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+};
+
 export type TParcel = {
   _id: string;
-  sender: {
-    _id: string;
-    name: string;
-    email: string;
-    image: string;
-  };
+  sender: TUser;
   pickupAddress: string;
   deliveryAddress: string;
   parcelType: string;
   isCOD: boolean;
   amount: number;
   status: "Booked" | "Picked Up" | "In Transit" | "Delivered" | "Failed";
-  assignedAgent?: {
-    _id: string;
-    name: string;
-    email: string;
-    image: string;
-  };
+  assignedAgent?: TUser;
   trackingCoordinates: TTrackingCoordinate[];
   createdAt: string;
   updatedAt: string;

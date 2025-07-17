@@ -11,16 +11,16 @@ const MyParcelTableRow = ({ parcel }: { parcel: TParcel }) => {
       <td>{parcel?.deliveryAddress}</td>
       <td>
         <span
-          className={`text-purple-300 badge badge-${
+          className={`text-white badge ${
             parcel?.status === "Delivered"
-              ? "success"
+              ? "badge-success"
               : parcel?.status === "In Transit"
-              ? "warning"
+              ? "badge-warning"
               : parcel?.status === "Picked Up"
-              ? "info"
+              ? "badge-info"
               : parcel?.status === "Failed"
-              ? "error"
-              : "neutral"
+              ? "badge-error"
+              : "badge-neutral"
           }`}
         >
           {parcel?.status}
