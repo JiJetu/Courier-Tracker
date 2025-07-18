@@ -15,6 +15,7 @@ import ManageParcels from "../pages/dashboard/admin/ManageParcels";
 import CustomerRoute from "./CustomerRoute";
 import ProtectedRoute from "./ProtectedRoute";
 import ManageUsers from "../components/dashboard/admin/ManageUsers";
+import Dashboard from "../pages/dashboard/common/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <h1>Dashboard</h1>,
+        element: <Dashboard />,
       },
       {
         path: "parcel-track/:id",

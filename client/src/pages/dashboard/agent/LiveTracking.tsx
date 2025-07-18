@@ -82,7 +82,7 @@ const LiveTracking = () => {
         <option value="">Select Parcel</option>
         {assignedParcels?.map((parcel: TParcel) => (
           <option key={parcel._id} value={parcel._id}>
-            {parcel.parcelType} ({parcel.status})
+            track-{parcel._id.slice(0, 7)} {parcel.parcelType} ({parcel.status})
           </option>
         ))}
       </select>

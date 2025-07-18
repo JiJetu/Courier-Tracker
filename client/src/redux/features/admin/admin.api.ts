@@ -2,6 +2,13 @@ import { baseApi } from "../../api/base.api";
 
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getAdminMetrics: builder.query({
+      query: () => ({
+        url: "/admin/dashboard-metrics",
+        method: "GET",
+      }),
+      providesTags: ["User", "Parcel"],
+    }),
     getAllAgents: builder.query({
       query: () => ({
         url: "/admin/agents",
@@ -31,4 +38,5 @@ export const {
   useGetAllAgentsQuery,
   useGetAllUsersQuery,
   useUpdateUserStatusMutation,
+  useGetAdminMetricsQuery,
 } = adminApi;

@@ -25,7 +25,10 @@ const AssignedParcels = () => {
             key={parcel?._id}
             className="bg-white shadow-lg p-4 rounded-lg border border-purple-200"
           >
-            <h2 className="text-lg font-bold mb-2">{parcel?.parcelType}</h2>
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg font-bold mb-2">{parcel?.parcelType}</h2>
+              <p>track: {parcel._id.slice(0, 7)}</p>
+            </div>
             <p>
               Status: <span className="font-semibold">{parcel.status}</span>
             </p>

@@ -17,7 +17,9 @@ const ParcelStatusModal = ({ parcel, closeModal }: TParcelStatusModalProps) => {
   const [updateStatus, { isLoading }] = useUpdateParcelStatusMutation();
 
   const handleUpdate = async () => {
-    if (!status) return toast.error("Select proper status");
+    console.log(status);
+    if (!status || status === "Booked")
+      return toast.error("Select proper status");
     const toastId = toast.loading("Updating status......");
     const updatedStatus = { id: parcel._id, status };
     try {
