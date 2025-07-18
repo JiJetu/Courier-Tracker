@@ -10,15 +10,16 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useGetAdminMetricsQuery } from "../../../redux/features/admin/admin.api";
+import { currentUser } from "../../../redux/features/auth/auth.slice";
+import { useAppSelector } from "../../../redux/hooks";
 
 const AdminDashboard = () => {
   const { data, isLoading, isError } = useGetAdminMetricsQuery(undefined);
+  const user = useAppSelector(currentUser);
 
   if (isLoading) return <Loading />;
   if (isError)
-    return (
-      <p className="text-center text-red-500">Failed to load metrics ❌</p>
-    );
+    return <p className="text-center text-red-500">Failed to load metrics</p>;
 
   const metrics = data?.data;
 
@@ -28,7 +29,15 @@ const AdminDashboard = () => {
         <title>CourierTracker | Dashboard</title>
       </Helmet>
 
-      <h1 className="text-3xl font-bold mb-4">📊 Dashboard Overview</h1>
+      <div className="flex justify-between">
+        <h1 className="text-xl md:text-3xl font-bold mb-4">
+          📊 Dashboard Overview
+        </h1>
+        <p className="text-lg font-semibold">
+          🖐🏻Hey, <span className="uppercase text-purple-600">{user?.role}</span>{" "}
+          {user?.name}
+        </p>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div className="bg-white p-4 rounded shadow text-center">
