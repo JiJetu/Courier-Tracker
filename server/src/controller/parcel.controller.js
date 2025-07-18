@@ -35,15 +35,33 @@ exports.bookParcel = async (req, res) => {
 // Fetching parcel data from db (customer will their created parcel, agent can see their assign parcel and admin can see all parcel data)
 exports.getParcels = async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
     let filter = {};
     if (req?.user?.role === userRole.Customer)
       filter.sender = req?.user?.userId;
     if (req?.user?.role === userRole.Agent)
       filter.assignedAgent = req?.user?.userId;
 
-    const parcels = await Parcel.find(filter).populate("sender assignedAgent");
+    const total = await Parcel.countDocuments(filter);
 
-    res.send({ message: "Parcels fetched successfully", parcels });
+    const parcels = await Parcel.find(filter)
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 })
+      .populate("sender assignedAgent");
+
+    res.send({
+      message: "Parcels fetched successfully",
+      data: {
+        total,
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        parcels,
+      },
+    });
   } catch (err) {
     res.status(500).send({ message: "Failed to fetch parcels" });
   }
