@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema(
       enum: ["admin", "customer", "agent"],
       default: "customer",
     },
+    isBlocked: {
+      type: Boolean,
+      default: "false",
+    },
     image: String,
   },
   { timestamps: true }

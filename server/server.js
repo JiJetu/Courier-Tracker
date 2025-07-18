@@ -12,10 +12,10 @@ const io = new Server(server, {
   },
 });
 io.on("connection", (socket) => {
-  console.log("connected to socket.io");
+  console.log("New client connected:", socket.id);
 
   socket.on("disconnect", () => {
-    console.log("client disconnected");
+    console.log("❌ Client disconnected:", socket.id);
   });
 });
 app.set("io", io);

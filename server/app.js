@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 
 const authRoutes = require("./src/routes/auth.routes");
 const parcelRoutes = require("./src/routes/parcel.routes");
-const adminRoutes = require("./src/routes/admin.routes");
+const userRoutes = require("./src/routes/user.routes");
 const {
   notFound,
   errorHandler,
@@ -26,8 +26,8 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api", authRoutes);
+app.use("/api", userRoutes);
 app.use("/api/parcel", parcelRoutes);
-app.use("/api/admin", adminRoutes);
 
 // Health check
 app.get("/", (req, res) => {

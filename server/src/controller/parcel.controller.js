@@ -1,6 +1,7 @@
 const userRole = require("../constant");
 const Parcel = require("../model/Parcel.model");
 const User = require("../model/User.model");
+const { sendMail } = require("../utils/sendMail");
 
 // Create a booking as parcel in db
 exports.bookParcel = async (req, res) => {
@@ -45,6 +46,22 @@ exports.getParcels = async (req, res) => {
     res.send({ message: "Parcels fetched successfully", parcels });
   } catch (err) {
     res.status(500).send({ message: "Failed to fetch parcels" });
+  }
+};
+
+exports.getParcelById = async (req, res) => {
+  try {
+    const parcel = await Parcel.findById(req.params.id).populate(
+      "sender assignedAgent"
+    );
+
+    if (!parcel) {
+      return res.status(404).send({ message: "Parcel not found" });
+    }
+
+    res.send({ message: "Parcel fetched", parcel });
+  } catch (err) {
+    res.status(500).send({ message: "Failed to fetch parcel" });
   }
 };
 
