@@ -181,6 +181,10 @@ exports.getAgentDashboardMetrics = async (req, res) => {
       assignedAgent: agentId,
       status: "Failed",
     });
+    const pending = await Parcel.countDocuments({
+      assignedAgent: agentId,
+      status: "Booked",
+    });
 
     const todayStart = moment().startOf("day").toDate();
     const todayEnd = moment().endOf("day").toDate();
@@ -214,6 +218,7 @@ exports.getAgentDashboardMetrics = async (req, res) => {
         totalAssigned,
         delivered,
         failed,
+        pending,
         todayAssigned,
         last10DaysStats,
       },

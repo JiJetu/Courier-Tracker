@@ -126,7 +126,7 @@ exports.assignAgent = async (req, res) => {
   try {
     const updatedParcel = await Parcel.findByIdAndUpdate(
       req.params.id,
-      { assignedAgent: req.body.agentId },
+      { assignedAgent: req.body.agentId, status: "Booked" },
       { new: true }
     );
 

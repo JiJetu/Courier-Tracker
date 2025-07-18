@@ -14,8 +14,15 @@ const parcelSchema = new mongoose.Schema(
     amount: { type: Number, default: 0 },
     status: {
       type: String,
-      enum: ["Booked", "Picked Up", "In Transit", "Delivered", "Failed"],
-      default: "Booked",
+      enum: [
+        "Pending",
+        "Booked",
+        "Picked Up",
+        "In Transit",
+        "Delivered",
+        "Failed",
+      ],
+      default: "Pending",
     },
     assignedAgent: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     trackingCoordinates: [
