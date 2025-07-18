@@ -4,14 +4,14 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { toast } from "sonner";
 import {
-  useGetMyParcelsQuery,
+  useGetActiveAssignedParcelsQuery,
   useUpdateParcelLocationMutation,
 } from "../../../redux/features/parcel/parcel.api";
 import { TParcel } from "../../../type/parcel.types";
 import Loading from "../../../components/loading/Loading";
 
 const LiveTracking = () => {
-  const { data, isLoading } = useGetMyParcelsQuery(undefined);
+  const { data, isLoading } = useGetActiveAssignedParcelsQuery(undefined);
   const [selectedParcel, setSelectedParcel] = useState<TParcel | null>(null);
   const [currentPosition, setCurrentPosition] = useState<{
     lat: number;

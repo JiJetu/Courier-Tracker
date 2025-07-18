@@ -12,6 +12,7 @@ import {
 import { useGetAdminMetricsQuery } from "../../../redux/features/admin/admin.api";
 import { currentUser } from "../../../redux/features/auth/auth.slice";
 import { useAppSelector } from "../../../redux/hooks";
+import DownloadReportButton from "../../downloadReportButton/DownloadReportButton";
 
 const AdminDashboard = () => {
   const { data, isLoading, isError } = useGetAdminMetricsQuery(undefined);
@@ -77,7 +78,15 @@ const AdminDashboard = () => {
 
       <div className="bg-white p-4 rounded shadow mt-8 flex flex-col-reverse lg:flex-row gap-4">
         <div className="flex-1">
-          <h2 className="text-xl font-bold mb-4">📅 Bookings - Last 10 Days</h2>
+          <div className="md:flex justify-between items-center mb-7 md:mb-4">
+            <h2 className="text-xl font-bold mb-3">
+              📅 Bookings - Last 10 Days
+            </h2>
+            <div className="flex gap-3">
+              <DownloadReportButton type="csv" />
+              <DownloadReportButton type="pdf" />
+            </div>
+          </div>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={metrics?.last10DaysStats}>
               <CartesianGrid strokeDasharray="3 3" />

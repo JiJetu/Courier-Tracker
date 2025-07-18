@@ -20,6 +20,14 @@ const parcelApi = baseApi.injectEndpoints({
       providesTags: ["Parcel"],
     }),
 
+    getActiveAssignedParcels: builder.query({
+      query: () => ({
+        url: "/parcel/assigned-active",
+        method: "GET",
+      }),
+      providesTags: ["Parcel"],
+    }),
+
     // Get single parcel by ID
     getParcelById: builder.query({
       query: (id) => ({
@@ -55,7 +63,7 @@ const parcelApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: { lat, lng },
       }),
-      //   invalidatesTags: ["Parcel"],
+      invalidatesTags: ["Parcel"],
     }),
   }),
 });
@@ -67,4 +75,5 @@ export const {
   useUpdateParcelStatusMutation,
   useAssignParcelMutation,
   useUpdateParcelLocationMutation,
+  useGetActiveAssignedParcelsQuery,
 } = parcelApi;

@@ -3,17 +3,28 @@ import Loading from "../../../components/loading/Loading";
 import { TParcel } from "../../../type/parcel.types";
 import { useGetMyParcelsQuery } from "../../../redux/features/parcel/parcel.api";
 import ManageParcelsTableRow from "../../../components/dashboard/admin/ManageParcelsTableRow";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Pagination from "../../../components/pagination/Pagination";
+import { socket } from "../../../utiles/socket";
 
 const ITEMS_PER_PAGE = 7;
 
 const ManageParcels = () => {
   const [page, setPage] = useState<number>(1);
-  const { data, isLoading, isError } = useGetMyParcelsQuery({
+  const { data, isLoading, isError, refetch } = useGetMyParcelsQuery({
     page,
     limit: ITEMS_PER_PAGE,
   });
+
+  useEffect(() => {
+    socket.on("parcelAgentAssigned", () => refetch());
+    socket.on("parcelStatusUpdated", () => refetch());
+
+    return () => {
+      socket.off("parcelAgentAssigned");
+      socket.off("parcelStatusUpdated");
+    };
+  }, [refetch]);
 
   if (isLoading) return <Loading />;
   if (isError)

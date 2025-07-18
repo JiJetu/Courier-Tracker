@@ -1,20 +1,30 @@
 import { Helmet } from "react-helmet-async";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ParcelStatusModal from "../../../components/dashboard/agent/ParcelStatusModal";
 import { TParcel } from "../../../type/parcel.types";
 import { useGetMyParcelsQuery } from "../../../redux/features/parcel/parcel.api";
 import Loading from "../../../components/loading/Loading";
 import Pagination from "../../../components/pagination/Pagination";
+import { socket } from "../../../utiles/socket";
 
 const ITEMS_PER_PAGE = 6;
 
 const AssignedParcels = () => {
   const [page, setPage] = useState<number>(1);
-  const { data, isLoading } = useGetMyParcelsQuery({
+  const { data, isLoading, refetch } = useGetMyParcelsQuery({
     page,
     limit: ITEMS_PER_PAGE,
   });
   const [selectedParcel, setSelectedParcel] = useState<TParcel | null>(null);
+
+  useEffect(() => {
+    socket.on("parcelStatusUpdated", () => refetch());
+    socket.on("parcelAgentAssigned", () => refetch());
+    return () => {
+      socket.off("parcelStatusUpdated");
+      socket.off("parcelAgentAssigned");
+    };
+  }, [refetch]);
 
   if (isLoading) return <Loading />;
 
@@ -43,7 +53,7 @@ const AssignedParcels = () => {
               <p>track: {parcel._id.slice(0, 7)}</p>
             </div>
             <p>
-              Status: <span className="font-semibold">{parcel.status}</span>
+              Status: <span className="font-semibold">{parcel?.status}</span>
             </p>
             <p>Pickup: {parcel?.pickupAddress}</p>
             <p>Delivery: {parcel?.deliveryAddress}</p>

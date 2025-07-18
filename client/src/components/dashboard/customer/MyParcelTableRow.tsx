@@ -9,7 +9,7 @@ const MyParcelTableRow = ({ parcel }: { parcel: TParcel }) => {
       <td>{parcel?.parcelType}</td>
       <td>{parcel?.pickupAddress}</td>
       <td>{parcel?.deliveryAddress}</td>
-      <td>
+      <td className="whitespace-nowrap min-w-[100px] max-w-[150px]">
         <span
           className={`text-white badge ${
             parcel?.status === "Delivered"

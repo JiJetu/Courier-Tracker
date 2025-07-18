@@ -27,9 +27,12 @@ const AssignAgentModal = ({ parcel, closeModal }: TAssignAgentModalProps) => {
 
   const handleAssign = async () => {
     if (!agentId) return toast.error("Please select an agent!");
+
     const toastId = toast.loading("Assigning agent...");
+
     try {
       await assignAgent({ id: parcel._id, agentId }).unwrap();
+
       toast.success("Agent assigned successfully", { id: toastId });
       closeModal();
     } catch (error: any) {
