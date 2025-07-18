@@ -13,6 +13,14 @@ export type TUser = {
   isBlocked: boolean;
 };
 
+export type TParcelStatus =
+  | "Pending"
+  | "Booked"
+  | "Picked Up"
+  | "In Transit"
+  | "Delivered"
+  | "Failed";
+
 export type TParcel = {
   _id: string;
   sender: TUser;
@@ -21,7 +29,7 @@ export type TParcel = {
   parcelType: string;
   isCOD: boolean;
   amount: number;
-  status: "Booked" | "Picked Up" | "In Transit" | "Delivered" | "Failed";
+  status: TParcelStatus;
   assignedAgent?: TUser;
   trackingCoordinates: TTrackingCoordinate[];
   createdAt: string;

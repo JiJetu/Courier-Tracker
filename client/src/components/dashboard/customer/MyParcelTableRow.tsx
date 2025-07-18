@@ -20,6 +20,8 @@ const MyParcelTableRow = ({ parcel }: { parcel: TParcel }) => {
               ? "badge-info"
               : parcel?.status === "Failed"
               ? "badge-error"
+              : parcel?.status === "Booked"
+              ? "badge-primary"
               : "badge-neutral"
           }`}
         >
@@ -28,19 +30,27 @@ const MyParcelTableRow = ({ parcel }: { parcel: TParcel }) => {
       </td>
       <td>{parcel?.amount}৳</td>
       <td>{parcel?.isCOD ? "✅" : "❌"}</td>
-      <td>
-        {parcel?.status === "Picked Up" || parcel?.status === "In Transit" ? (
+      <td className="flex gap-2">
+        {(parcel?.status === "Picked Up" ||
+          parcel?.status === "In Transit") && (
           <button
             onClick={() => navigate(`/dashboard/parcel-track/${parcel._id}`)}
             className="btn btn-xs btn-outline btn-primary"
           >
             Track
           </button>
-        ) : parcel?.status === "Delivered" ? (
-          <button className="btn btn-xs btn-outline btn-warning">Pay</button>
-        ) : (
-          <span className="text-xs text-gray-400">N/A</span>
         )}
+
+        {(parcel?.status === "Delivered" || parcel?.isCOD === false) && (
+          <button className="btn btn-xs btn-outline btn-warning">Pay</button>
+        )}
+
+        {parcel?.status !== "Picked Up" &&
+          parcel?.status !== "In Transit" &&
+          parcel?.status !== "Delivered" &&
+          parcel?.isCOD !== false && (
+            <span className="text-xs text-gray-400">N/A</span>
+          )}
       </td>
     </tr>
   );

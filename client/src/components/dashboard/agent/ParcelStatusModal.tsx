@@ -12,16 +12,33 @@ import { TParcel } from "../../../type/parcel.types";
 
 type TParcelStatusModalProps = { parcel: TParcel; closeModal: () => void };
 
+const getNextStatuses = (currentStatus: string): string[] => {
+  const statusMap: Record<string, string[]> = {
+    Booked: ["Picked Up", "Failed"],
+    "Picked Up": ["In Transit", "Failed"],
+    "In Transit": ["Delivered", "Failed"],
+    Delivered: [],
+    Failed: [],
+  };
+  return statusMap[currentStatus] || [];
+};
+
 const ParcelStatusModal = ({ parcel, closeModal }: TParcelStatusModalProps) => {
-  const [status, setStatus] = useState<string>(parcel.status);
+  const [selectedStatus, setSelectedStatus] = useState("");
   const [updateStatus, { isLoading }] = useUpdateParcelStatusMutation();
 
+  const nextStatuses = getNextStatuses(parcel.status);
+
+  console.log(nextStatuses);
+
   const handleUpdate = async () => {
-    console.log(status);
-    if (!status || status === "Booked")
+    console.log(selectedStatus);
+    if (!selectedStatus || selectedStatus === "Booked")
       return toast.error("Select proper status");
+
     const toastId = toast.loading("Updating status......");
-    const updatedStatus = { id: parcel._id, status };
+    const updatedStatus = { id: parcel._id, status: selectedStatus };
+
     try {
       const res = await updateStatus(updatedStatus);
       console.log(res);
@@ -66,19 +83,28 @@ const ParcelStatusModal = ({ parcel, closeModal }: TParcelStatusModalProps) => {
                 </DialogTitle>
 
                 <select
-                  className="select select-bordered w-full mb-4"
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
+                  className="w-full p-2 mb-4 border rounded"
+                  value={selectedStatus}
+                  onChange={(e) => setSelectedStatus(e.target.value)}
                 >
                   <option value="">Select Status</option>
-                  <option value="Picked Up">Picked Up</option>
-                  <option value="In Transit">In Transit</option>
-                  <option value="Delivered">Delivered</option>
-                  <option value="Failed">Failed</option>
+                  {["Picked Up", "In Transit", "Delivered", "Failed"].map(
+                    (status) => (
+                      <option
+                        key={status}
+                        value={status}
+                        disabled={
+                          !nextStatuses.includes(status) && status !== "Failed"
+                        }
+                      >
+                        {status}
+                      </option>
+                    )
+                  )}
                 </select>
 
                 <button
-                  disabled={isLoading}
+                  disabled={isLoading || nextStatuses.length < 1}
                   onClick={handleUpdate}
                   className="btn btn-primary w-full"
                 >

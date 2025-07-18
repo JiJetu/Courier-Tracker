@@ -38,10 +38,14 @@ const AgentDashboard = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <div className="bg-white p-4 rounded shadow text-center">
           <h2 className="text-lg font-bold">Assigned Parcels</h2>
           <p className="text-2xl text-purple-600">{metrics?.totalAssigned}</p>
+        </div>
+        <div className="bg-white p-4 rounded shadow text-center">
+          <h2 className="text-lg font-bold">Pending</h2>
+          <p className="text-2xl text-yellow-600">{metrics?.pending || 0}</p>
         </div>
         <div className="bg-white p-4 rounded shadow text-center">
           <h2 className="text-lg font-bold">Delivered</h2>

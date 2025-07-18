@@ -30,7 +30,13 @@ const AssignedParcels = () => {
         {data?.data?.parcels?.map((parcel: TParcel) => (
           <div
             key={parcel?._id}
-            className="bg-white shadow-lg p-4 rounded-lg border border-purple-200"
+            className={`${
+              parcel.status === "Delivered"
+                ? "bg-slate-300"
+                : parcel.status === "Failed"
+                ? "bg-rose-500"
+                : "bg-white"
+            } shadow-lg p-4 rounded-lg border border-purple-200`}
           >
             <div className="flex justify-between items-center">
               <h2 className="text-lg font-bold mb-2">{parcel?.parcelType}</h2>
@@ -42,6 +48,9 @@ const AssignedParcels = () => {
             <p>Pickup: {parcel?.pickupAddress}</p>
             <p>Delivery: {parcel?.deliveryAddress}</p>
             <button
+              disabled={
+                parcel.status === "Failed" || parcel.status === "Delivered"
+              }
               onClick={() => setSelectedParcel(parcel)}
               className="mt-3 btn btn-sm btn-primary w-full"
             >
