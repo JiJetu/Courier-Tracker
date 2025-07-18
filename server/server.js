@@ -12,7 +12,17 @@ const io = new Server(server, {
   },
 });
 io.on("connection", (socket) => {
-  console.log("New client connected:", socket.id);
+  console.log("Client connected:", socket.id);
+
+  socket.on("join", (parcelId) => {
+    socket.join(parcelId);
+    console.log(`Client ${socket.id} joined room ${parcelId}`);
+  });
+
+  socket.on("leave", (parcelId) => {
+    socket.leave(parcelId);
+    console.log(`Client ${socket.id} left room ${parcelId}`);
+  });
 
   socket.on("disconnect", () => {
     console.log("❌ Client disconnected:", socket.id);
@@ -23,7 +33,7 @@ app.set("io", io);
 const PORT = process.env.PORT || 5000;
 
 connectDB().then(() => {
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
 });

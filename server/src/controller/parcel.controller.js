@@ -2,6 +2,8 @@ const userRole = require("../constant");
 const Parcel = require("../model/Parcel.model");
 const User = require("../model/User.model");
 const { sendMail } = require("../utils/sendMail");
+const converter = require("json-2-csv");
+const PDFDocument = require("pdfkit");
 
 // Create a booking as parcel in db
 exports.bookParcel = async (req, res) => {
@@ -93,10 +95,7 @@ exports.updateParcelStatus = async (req, res) => {
     );
 
     // socket.io event
-    req.app
-      .get("io")
-      .to(req.params.id)
-      .emit("parcelStatusUpdated", updatedParcel);
+    req.app.get("io").emit("parcelStatusUpdated", updatedParcel);
 
     // send mail to customer
     try {
@@ -131,10 +130,8 @@ exports.assignAgent = async (req, res) => {
     );
 
     // socket.io event
-    req.app
-      .get("io")
-      .to(req.params.id)
-      .emit("parcelAgentAssigned", updatedParcel);
+    req.app.get("io").emit("parcelAgentAssigned", updatedParcel);
+    req.app.get("io").emit("parcelStatusUpdated", updatedParcel);
 
     // send mail to agent
     try {
@@ -154,6 +151,20 @@ exports.assignAgent = async (req, res) => {
     res.send({ message: "Agent assigned successfully", updatedParcel });
   } catch (err) {
     res.status(500).send({ message: "Failed to assign agent" });
+  }
+};
+
+// Agent active assign parcel without pagination
+exports.getActiveAssignedParcels = async (req, res) => {
+  try {
+    const filter = {
+      assignedAgent: req?.user?.userId,
+      status: { $in: ["Picked Up", "In Transit"] },
+    };
+    const parcels = await Parcel.find(filter).populate("sender assignedAgent");
+    res.send({ message: "Active parcels fetched", parcels });
+  } catch (err) {
+    res.status(500).send({ message: "Failed to fetch active parcels" });
   }
 };
 
@@ -178,5 +189,65 @@ exports.trackParcel = async (req, res) => {
     res.send({ message: "Location updated", updated });
   } catch (err) {
     res.status(500).send({ message: "Failed to update location" });
+  }
+};
+
+//  Export CSV
+exports.exportParcelsCSV = async (req, res) => {
+  try {
+    const parcels = await Parcel.find().populate("sender assignedAgent");
+
+    const formatted = parcels.map((p) => ({
+      ParcelType: p.parcelType,
+      Status: p.status,
+      PickupAddress: p.pickupAddress,
+      DeliveryAddress: p.deliveryAddress,
+      Amount: p.amount,
+      COD: p.isCOD ? "Yes" : "No",
+    }));
+
+    const csv = await converter.json2csv(formatted);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=parcels.csv");
+
+    res.status(200).send(csv);
+  } catch (err) {
+    console.error("CSV Export Error", err);
+    res.status(500).json({ message: "Failed to export CSV" });
+  }
+};
+
+// Export PDF
+exports.exportParcelsPDF = async (req, res) => {
+  try {
+    const parcels = await Parcel.find().populate("sender assignedAgent");
+
+    const doc = new PDFDocument();
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=parcels.pdf");
+    doc.pipe(res);
+
+    doc.fontSize(20).text("CourierTracker Parcel Report", { align: "center" });
+    doc.moveDown();
+
+    parcels.forEach((p, index) => {
+      doc
+        .fontSize(12)
+        .text(
+          `${index + 1}) ${p.parcelType} (${p.status})\nPickup: ${
+            p.pickupAddress
+          }\nDelivery: ${p.deliveryAddress}\nAmount: ${p.amount}, COD: ${
+            p.isCOD ? "Yes" : "No"
+          }`
+        );
+
+      doc.moveDown();
+    });
+
+    doc.end();
+  } catch (err) {
+    console.error("PDF Export Error", err);
+    res.status(500).json({ message: "Failed to export PDF" });
   }
 };
