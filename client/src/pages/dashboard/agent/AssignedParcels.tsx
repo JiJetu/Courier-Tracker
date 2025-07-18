@@ -4,9 +4,16 @@ import ParcelStatusModal from "../../../components/dashboard/agent/ParcelStatusM
 import { TParcel } from "../../../type/parcel.types";
 import { useGetMyParcelsQuery } from "../../../redux/features/parcel/parcel.api";
 import Loading from "../../../components/loading/Loading";
+import Pagination from "../../../components/pagination/Pagination";
+
+const ITEMS_PER_PAGE = 6;
 
 const AssignedParcels = () => {
-  const { data, isLoading } = useGetMyParcelsQuery(undefined);
+  const [page, setPage] = useState<number>(1);
+  const { data, isLoading } = useGetMyParcelsQuery({
+    page,
+    limit: ITEMS_PER_PAGE,
+  });
   const [selectedParcel, setSelectedParcel] = useState<TParcel | null>(null);
 
   if (isLoading) return <Loading />;
@@ -20,7 +27,7 @@ const AssignedParcels = () => {
       <h1 className="text-3xl font-bold mb-4">Assigned Parcels 📦</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {data?.parcels?.map((parcel: TParcel) => (
+        {data?.data?.parcels?.map((parcel: TParcel) => (
           <div
             key={parcel?._id}
             className="bg-white shadow-lg p-4 rounded-lg border border-purple-200"
@@ -43,6 +50,12 @@ const AssignedParcels = () => {
           </div>
         ))}
       </div>
+
+      <Pagination
+        currentPage={data?.data?.currentPage || 1}
+        totalPages={data?.data?.totalPages || 1}
+        onPageChange={(newPage) => setPage(newPage)}
+      />
 
       {selectedParcel && (
         <ParcelStatusModal

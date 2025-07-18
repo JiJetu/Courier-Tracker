@@ -36,6 +36,8 @@ const MyParcelTableRow = ({ parcel }: { parcel: TParcel }) => {
           >
             Track
           </button>
+        ) : parcel?.status === "Delivered" ? (
+          <button className="btn btn-xs btn-outline btn-warning">Pay</button>
         ) : (
           <span className="text-xs text-gray-400">N/A</span>
         )}

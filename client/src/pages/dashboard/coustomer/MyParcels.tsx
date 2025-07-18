@@ -3,9 +3,17 @@ import { useGetMyParcelsQuery } from "../../../redux/features/parcel/parcel.api"
 import { TParcel } from "../../../type/parcel.types";
 import Loading from "../../../components/loading/Loading";
 import MyParcelTableRow from "../../../components/dashboard/customer/MyParcelTableRow";
+import { useState } from "react";
+import Pagination from "../../../components/pagination/Pagination";
+
+const ITEMS_PER_PAGE = 7;
 
 const MyParcels = () => {
-  const { data, isLoading, isError } = useGetMyParcelsQuery(undefined);
+  const [page, setPage] = useState<number>(1);
+  const { data, isLoading, isError } = useGetMyParcelsQuery({
+    page,
+    limit: ITEMS_PER_PAGE,
+  });
 
   if (isLoading) return <Loading />;
   if (isError)
@@ -30,16 +38,21 @@ const MyParcels = () => {
                 <th>Status</th>
                 <th>Amount</th>
                 <th>COD</th>
-                <th>Track</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {data?.parcels?.map((parcel: TParcel) => (
+              {data?.data?.parcels?.map((parcel: TParcel) => (
                 <MyParcelTableRow parcel={parcel} />
               ))}
             </tbody>
           </table>
         </div>
+        <Pagination
+          currentPage={data?.data?.currentPage || 1}
+          totalPages={data?.data?.totalPages || 1}
+          onPageChange={(newPage) => setPage(newPage)}
+        />
       </div>
     </>
   );

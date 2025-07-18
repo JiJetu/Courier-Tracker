@@ -13,8 +13,8 @@ const parcelApi = baseApi.injectEndpoints({
 
     // Get parcels based on user role
     getMyParcels: builder.query({
-      query: () => ({
-        url: "/parcel",
+      query: ({ page = 1, limit = 10 }) => ({
+        url: `/parcel?page=${page}&limit=${limit}`,
         method: "GET",
       }),
       providesTags: ["Parcel"],

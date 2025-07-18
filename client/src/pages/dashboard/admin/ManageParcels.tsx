@@ -3,9 +3,17 @@ import Loading from "../../../components/loading/Loading";
 import { TParcel } from "../../../type/parcel.types";
 import { useGetMyParcelsQuery } from "../../../redux/features/parcel/parcel.api";
 import ManageParcelsTableRow from "../../../components/dashboard/admin/ManageParcelsTableRow";
+import { useState } from "react";
+import Pagination from "../../../components/pagination/Pagination";
+
+const ITEMS_PER_PAGE = 7;
 
 const ManageParcels = () => {
-  const { data, isLoading, isError } = useGetMyParcelsQuery(undefined);
+  const [page, setPage] = useState<number>(1);
+  const { data, isLoading, isError } = useGetMyParcelsQuery({
+    page,
+    limit: ITEMS_PER_PAGE,
+  });
 
   if (isLoading) return <Loading />;
   if (isError)
@@ -34,12 +42,17 @@ const ManageParcels = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.parcels?.map((parcel: TParcel) => (
+            {data?.data?.parcels?.map((parcel: TParcel) => (
               <ManageParcelsTableRow key={parcel._id} parcel={parcel} />
             ))}
           </tbody>
         </table>
       </div>
+      <Pagination
+        currentPage={data?.data?.currentPage || 1}
+        totalPages={data?.data?.totalPages || 1}
+        onPageChange={(newPage) => setPage(newPage)}
+      />
     </div>
   );
 };

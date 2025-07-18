@@ -57,9 +57,7 @@ const AgentDashboard = () => {
         <h2 className="text-lg font-bold mb-4">
           📅 Todays Assign {metrics?.todayAssigned}
         </h2>
-        <h2 className="text-xl font-bold mb-4">
-          📅 Last 10 Days Bookings {metrics?.last10DaysStats}
-        </h2>
+        <h2 className="text-xl font-bold mb-4">📅 Last 10 Days Bookings</h2>
         <ResponsiveContainer width="95%" height={300}>
           <LineChart data={metrics?.last10DaysStats}>
             <CartesianGrid strokeDasharray="3 3" />
