@@ -25,7 +25,7 @@ const AgentDashboard = () => {
   return (
     <div className="p-4">
       <Helmet>
-        <title>CourierTracker | Dashboard</title>
+        <title>CourierTracker | Agent Dashboard</title>
       </Helmet>
 
       <div className="flex justify-between">

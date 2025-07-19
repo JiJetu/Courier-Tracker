@@ -27,7 +27,7 @@ const AdminDashboard = () => {
   return (
     <div className="p-4">
       <Helmet>
-        <title>CourierTracker | Dashboard</title>
+        <title>CourierTracker | Admin Dashboard</title>
       </Helmet>
 
       <div className="flex justify-between">
