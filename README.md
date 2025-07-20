@@ -54,13 +54,23 @@ To access the **Admin Dashboard**, log in with:
 
 ---
 
+## 📌 Postman API Collection
+
+**Postman API Collection is available in the project:**
+
+server/Courier Tracker.postman_collection.json
+
+- Import this JSON file in Postman to quickly test all APIs including authentication, parcel CRUD operations, reports export, dashboard metrics, etc.
+
+---
+
 ## User Roles & Features
 
-| Role     | Features                                                    |
-| -------- | ----------------------------------------------------------- |
-| Customer | Book parcels, track parcel live, check delivery status      |
-| Agent    | See assigned parcels, update parcel status, live tracking   |
-| Admin    | Manage users, assign agents, view analytics, export reports |
+| Role     | Features                                                             |
+| -------- | -------------------------------------------------------------------- |
+| Customer | Book parcels, track parcel live, check delivery status               |
+| Agent    | See assigned parcels, update parcel status, live tracking            |
+| Admin    | Manage parcel & users, assign agents, view analytics, export reports |
 
 ---
 
@@ -74,6 +84,8 @@ To access the **Admin Dashboard**, log in with:
 | `/api/parcel/`           | GET/POST  | Book & fetch parcels based on role  |
 | `/api/parcel/assign/:id` | PATCH     | Admin assigns agent to parcel       |
 | `/api/parcel/status/:id` | PATCH     | Agent updates parcel status         |
+| `/api/parcel/track/:id`  | PATCH     | Agent updates parcel live location  |
+| `/api/parcel/:id`        | DELETE    | Admin can delete parcel             |
 | `/api/parcel/export/csv` | GET       | Export parcels CSV report           |
 | `/api/parcel/export/pdf` | GET       | Export parcels PDF report           |
 | `/api/admin/agents`      | GET       | Admin fetches agent list            |

@@ -87,7 +87,7 @@ const LiveTracking = () => {
         ))}
       </select>
 
-      <div className="h-[400px] w-full rounded-lg overflow-hidden mb-4">
+      <div className="relative z-0 h-[400px] w-full rounded-lg overflow-hidden mb-4">
         <MapContainer
           center={currentPosition}
           zoom={14}
@@ -95,6 +95,7 @@ const LiveTracking = () => {
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            referrerPolicy="no-referrer"
             attribution="© OpenStreetMap contributors"
           />
           <Marker position={currentPosition}>

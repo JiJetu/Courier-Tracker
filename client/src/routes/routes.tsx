@@ -17,11 +17,13 @@ import ProtectedRoute from "./ProtectedRoute";
 import ManageUsers from "../components/dashboard/admin/ManageUsers";
 import Dashboard from "../pages/dashboard/common/Dashboard";
 import Profile from "../pages/dashboard/common/Profile";
+import NotFound from "../pages/errror/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,

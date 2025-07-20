@@ -83,13 +83,16 @@ const ParcelTrack = () => {
         </div>
 
         {latest ? (
-          <div className="h-[400px] w-full mt-4 rounded-lg overflow-hidden">
+          <div className="relative z-0 h-[400px] w-full mt-4 rounded-lg overflow-hidden">
             <MapContainer
               center={{ lat: latest.lat, lng: latest.lng }}
               zoom={14}
               className="h-full w-full"
             >
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                referrerPolicy="no-referrer"
+              />
               <Marker position={{ lat: latest.lat, lng: latest.lng }}>
                 <Popup>Current Location 🚚</Popup>
               </Marker>

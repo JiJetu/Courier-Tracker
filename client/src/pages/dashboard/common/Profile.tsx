@@ -72,6 +72,7 @@ const Profile = () => {
                     : `https://ui-avatars.com/api/?name=${user?.name}`
                 }
                 alt="Profile"
+                referrerPolicy="no-referrer"
                 className="w-24 h-24 rounded-full object-cover"
               />
             </div>
