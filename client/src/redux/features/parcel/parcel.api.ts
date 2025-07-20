@@ -65,6 +65,13 @@ const parcelApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Parcel"],
     }),
+    deleteParcel: builder.mutation({
+      query: (id) => ({
+        url: `/parcel/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Parcel"],
+    }),
   }),
 });
 
@@ -76,4 +83,5 @@ export const {
   useAssignParcelMutation,
   useUpdateParcelLocationMutation,
   useGetActiveAssignedParcelsQuery,
+  useDeleteParcelMutation,
 } = parcelApi;

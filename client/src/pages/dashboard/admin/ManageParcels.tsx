@@ -50,6 +50,7 @@ const ManageParcels = () => {
               <th>Agent</th>
               <th>Track</th>
               <th>Assign</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>

@@ -1,7 +1,7 @@
 export type TTrackingCoordinate = {
   lat: number;
   lng: number;
-  timestamp: string; // ISO String from backend
+  timestamp: string;
 };
 
 export type TUser = {
