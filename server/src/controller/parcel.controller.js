@@ -79,6 +79,22 @@ exports.getParcelById = async (req, res) => {
       return res.status(404).send({ message: "Parcel not found" });
     }
 
+    const role = req.user.role;
+    const userId = req.user.userId;
+
+    // Customer can only see their own parcels
+    if (role === userRole.Customer && parcel.sender._id.toString() !== userId) {
+      return res.status(403).send({ message: "Forbidden access" });
+    }
+
+    // Agent can only see assigned parcels
+    if (
+      role === userRole.Agent &&
+      (!parcel.assignedAgent || parcel.assignedAgent._id.toString() !== userId)
+    ) {
+      return res.status(403).send({ message: "Forbidden access" });
+    }
+
     res.send({ message: "Parcel fetched", parcel });
   } catch (err) {
     res.status(500).send({ message: "Failed to fetch parcel" });
@@ -189,6 +205,22 @@ exports.trackParcel = async (req, res) => {
     res.send({ message: "Location updated", updated });
   } catch (err) {
     res.status(500).send({ message: "Failed to update location" });
+  }
+};
+
+// Delete parcel (Admin only)
+exports.deleteParcel = async (req, res) => {
+  try {
+    const deletedParcel = await Parcel.findByIdAndDelete(req.params.id);
+
+    if (!deletedParcel) {
+      return res.status(404).send({ message: "Parcel not found" });
+    }
+
+    res.send({ message: "Parcel deleted successfully", deletedParcel });
+  } catch (err) {
+    console.error("Delete Parcel Error:", err);
+    res.status(500).send({ message: "Failed to delete parcel" });
   }
 };
 

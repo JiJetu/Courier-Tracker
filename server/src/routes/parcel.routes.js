@@ -9,6 +9,7 @@ const {
   getActiveAssignedParcels,
   exportParcelsCSV,
   exportParcelsPDF,
+  deleteParcel,
 } = require("../controller/parcel.controller");
 const { auth } = require("../middlewares/auth.middleware");
 const userRole = require("../constant");
@@ -30,6 +31,7 @@ router.get(
 router.patch("/status/:id", auth(userRole.Agent), updateParcelStatus);
 router.patch("/assign/:id", auth(userRole.Admin), assignAgent);
 router.patch("/track/:id", auth(userRole.Agent), trackParcel);
+router.delete("/:id", auth(userRole.Admin), deleteParcel);
 
 router.get(
   "/export/csv",

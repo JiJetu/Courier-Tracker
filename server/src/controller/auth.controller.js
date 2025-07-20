@@ -7,6 +7,11 @@ exports.registerUser = async (req, res) => {
   try {
     const { name, email, role, password, image } = req.body;
 
+    if (role === "admin")
+      return res
+        .status(403)
+        .send({ message: "Admin registration is not allowed" });
+
     const isExist = await User.findOne({ email });
     if (isExist)
       return res.status(409).send({ message: "User already exists" });
